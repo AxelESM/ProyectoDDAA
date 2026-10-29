@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Principal - ProyectoDDAA</title>
+</head>
+<body>
+    <h1>Bienvenido al sistema, {{ user.username }}</h1>
+
+    {% if user.is_authenticated %}
+        <p>Has iniciado sesión correctamente.</p>
+
+        <!-- Opciones para Administradores / Gestores -->
+        {% if user.is_superuser or user.is_staff %}
+            <div style="background-color: #ffcccc; padding: 15px; margin-bottom: 15px; border: 1px solid #ff9999;">
+                <h3>Panel de Administrador / Gestor</h3>
+                <p>Tienes privilegios elevados en el sistema.</p>
+                <a href="/admin/">Ir al Panel de Administración de Django</a>
+            </div>
+        {% endif %}
+
+        <!-- Botón de Cerrar Sesión (Obligatoriamente mediante POST por seguridad) -->
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" style="padding: 10px 15px; background-color: #d9534f; color: white; border: none; cursor: pointer;">
+                Cerrar Sesión
+            </button>
+        </form>
+
+    {% else %}
+        <!-- Opciones para Visitantes -->
+        <p>Eres un visitante.</p>
+        <a href="{% url 'login' %}">Iniciar Sesión</a> | 
+        <a href="{% url 'registro' %}">Registrarse</a>
+    {% endif %}
+</body>
+</html>

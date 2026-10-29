@@ -24,3 +24,11 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'cuentas/login.html', {'form': form})
+
+    # Vista de Cierre de Sesión
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirige al login al salir
+
+def home_view(request):
+    return render(request, 'cuentas/home.html')
